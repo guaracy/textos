@@ -1,18 +1,10 @@
 # Icon
 
-
-
 # DRAFT
 
 # EM CONSTRÇÃO
 
-
-
-
-
 > "... Icon uses the concepts of **success** and **failure** in combination with **generators** to perform goal-directed evaluation. If a computation fails, alternative values from generators are produced automatically in an attempt to produce an overall successful result. ..."
-
-
 
 A linguagem [Icon](https://www2.cs.arizona.edu/icon/https://www2.cs.arizona.edu/icon/) é uma linguagem de uso geral tendo como seu principal criador [Ralph E. Griswold](https://www2.cs.arizona.edu/~ralph/) (sempre é interessante saber um pouco sobre o criador da linguagem). Na aparência lembra Pascal e C, mas a citação no início do texto faz toda a diferença como veremos depois. 
 
@@ -28,11 +20,28 @@ end
 
 Exemplo besta apenas para mostrar a sintaxe *semelhante* ao Pascal e C.  Mas possui diversas melhorias como não necessitar o BEGIN desnecessário após a definição da procedure (ou a chave no caso do C) e não precisar dos ponto e vírgula superfluos do C e do Pascal. Infelizmente ainda necessita do END para fechar o bloco. Para elimina-lo, só se usasse a indentação de [ABC](https://homepages.cwi.nl/~steven/abc/) (que foi utilizado por Python e Beads, por exemplo). 
 
-Concordo plenamente que só essas pequenas melhorias não seriam necessárias para chamar a minha atenção para a linguagem. Vamos voltar para a citação inicial para entender melhor o significado e utilização de:
+Concordo plenamente que só essas pequenas melhorias não seriam necessárias para chamar a minha atenção para a linguagem. Vejamos um exemplo um pouco mais sofisticado (não se preocupe pois logo você irá descobrir exatamente como funciona)
+
+```objectpascal
+procedure main(args)
+  every write("Oi ",!args, ". Como você está?" )
+end
+```
+
+Em execução:
+
+```bash
+❯ ./teste1 João José Maria
+Oi João. Como você está?
+Oi José. Como você está?
+Oi Maria. Como você está?
+```
+
+Mas vamos voltar para a citação inicial para entender melhor o significado e utilização de:
 
 ## Sucesso e Falha
 
-Não tem mistério. Uma operação pode ser bem sucedida e retornar um valor que representa o sucesso ou pode falhar e retornar ```&fail```. *Ah, é o mesmo que falso e verdadeiro*. Não. É um valor para o sucesso ou &fail para falha. Vejamos um exemplo:
+Não tem mistério. Uma operação pode ser bem sucedida e retornar um valor que representa o sucesso ou pode falhar e retornar ```&fail```. *Ah, é o mesmo que falso e verdadeiro*. Não. É um valor para o sucesso ou ```&fail``` para falha. Vejamos um exemplo:
 
 ```objectpascal
   if 3 > 5 then write("maior") else write("menor")
@@ -76,16 +85,24 @@ Se pensou que é algo que gera alguma coisa, acertou. Um gerador de eletricidade
 
 Um exemplo simples são os laços exestentes em diversas linguagens. Por exemplo, ```for i:=1 to 10 do ...``` irá gerar valores de 1 até 10 que serão utilizados por algum procedimentos. Ou ```for i in [1,3,5,7,9] do ... ``` com a mesma finalidade.
 
-Icon tem um bom número de geradores. Um deles é o ponto de exclamação (**!**) que, em alguns casos, equivaleria ao ```for x in ```.  Por exemplo:
+Icon tem um bom número de geradores. 
+
+##### ! (generate elements)
+
+Em alguns casos, equivaleria ao ```for x in ```.  Por exemplo:
 
 ```objectpascal
 !"abcd"    # retorna a,b,c,d
 ![1,2,7,9] # retorna 1,2,7,9
 !5         # retorna 1,2,3,4,5
-!5.34      # retorna 5, . ,3,4
+!5.34      # retorna 5, . ,3,4 (como transformar para string; note o ponto)
 ```
 
-Outro é o *alternation* que é a barra vertical (**|**) e retorna os valores na sequência em que forem informados.
+Ok. Agora você já consegue entender o ```!args``` do segundo *hello world* do início do texto. Ele apenas retorna cada item enviado como argumento.
+
+##### | (repeated alternation)
+
+Retorna os valores na sequência em que forem informados.
 
 ```objectpascal
 (11 | 4 | "abc" | 3.2 |2K ) # retorna 11, 4, abc, 3.2, 2048
@@ -105,6 +122,8 @@ procedure main()
 end
 ```
 
+##### to [by]
+
 Também temos o ```exp1 to exp2 [by exp3] ``` 
 
 ```objectpascal
@@ -112,6 +131,8 @@ Também temos o ```exp1 to exp2 [by exp3] ```
 1 to 6 by 2   # retorna 1,3,5
 6 to 1 by -2  # retorna 6,5,4,3,2,1
 ```
+
+##### every
 
 Note que os geradores não retornam todos os valores de uma só vez. Eles são produzidos a medida em que são consumidos. Então exite o ```every``` que seria como o ```for``` de outras linguagens. Por exemplo, ```write(1 to 5)``` irá imprimir apenas um ```1```. Para tanto, você deverá escrever:
 
@@ -125,12 +146,25 @@ ou, se preferir, poderá utilizar os recursos da linguagem e escrever:
 every write(1 to 5)
 ```
 
-Além de ficar menor, eliminamos a variável que servia só para adequar ao nosso antigo modo de escrever programas.
+Além de ficar menor, eliminamos a variável que servia só para adequar ao nosso antigo modo de escrever programas. Agora você já consegue ler a linha ```every write("Oi ",!args, ". Como você está?" )``` do hello *world do início* do texto. Apenas imprime a mensagem para cada item enviado com argumento para o programa. Quando não tiver mais, retorna ```&fail``` e encerra o laço ```every```. Você ainda não precisa se preocupar se não existe nenhum argumento pois irá falhar na primeira execução.
 
+##### find
 
+O formato mais simpes é ```find(s,s1)``` que irá retornar todas as ocorrências de s em s1.
 
+```objectpascal
+every write(find(".","123.478.454-78"))
+```
 
+retorna
 
+```bash
+4
+8
+```
 
+##### finalmente
+
+Este documento não pretende ser um manual completo sobre a linguagem. Para maiores informações você deve consultar a documentação sobre [Unicon](https://unicon.sourceforge.io/ubooks.html) (que é a que eu tenho instalada) ou sobre [Icon](https://www2.cs.arizona.edu/icon/books.htm). Existem diversos livros gratuitos no formato pdf. Para Unicon ainda tem a documentação do [Brian Tiffin]([Unicon Programming &#8212; Unicon Programming v0.6.148](http://btiffin.users.sourceforge.net/up/index.html)) que, apesar de inacabada, é bem interessante (também pode ser baixada na versão pdf).
 
 
