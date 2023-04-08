@@ -8,7 +8,7 @@ Surgiu uma discussão sobre base 58 em um grupo de Nim. Bem, base é base. A ún
 | ---------------------------------------------------------------------- | ------------------------------------------------------------ |
 | [Flickr](https://www.flickr.com/groups/api/discuss/72157616713786392/) | `123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ` |
 | Bitcoin                                                                | `123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz` |
-| [Ripple](https://en.wikipedia.org/wiki/Ripple_(payment_protocol)       | `rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz` |
+| [Ripple](https://en.wikipedia.org/wiki/Ripple_(payment_protocol))       | `rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz` |
 | GMP                                                                    | `0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuv` |
 
 A ordem dos símbolos é essencial. Não podemos trocar o `5`pelo `7` e obtermos o mesmo resultado. Nos três o valor de `A` é diferente. Então é necessário saber para quem será feita a conversão. Pessoalmente acho o Bitcoin mais correto.
